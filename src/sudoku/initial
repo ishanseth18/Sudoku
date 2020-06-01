@@ -1,0 +1,39 @@
+Rules for getting rid of options
+	if the number is in the same box
+	if the number is in the same row
+	if the number is in the same column
+	if there is a number already occupying that slot, remove all other options from that square
+	
+Rules for adding a number
+	only option available for that square
+	only place where a number can fit in the box
+	only place where a number can fit in the row
+	only place where a number can fit in the column
+
+How solving will be done:
+	will have a boolean that checks for a change after each loop. If no changes are occuring, return the current board
+	for each number, check rows, columns, and boxes to see if something can be added. If it can be added, add it and update.
+	if from number 1-9 no changes are made, return the board. 
+	also need to check if t
+	
+To look at each box:
+	boxr and boxc will determine which box you are looking at - will range from 0-2
+	tiler and tilec will determine the tile inside of each box, 0-2 range
+	3*box + tile will give the exact row and collumn that is needed
+	
+	in addition to this, we need to update options in other boxes.
+	if the only options for any given number fall in a single row, then delete all other options for that number in that row
+	
+ISSUES BEING FACED RIGHT NOW:
+	optionCheck is working, but since it works even if there is only one option left in a box, it will just continue "deleting" 
+	options from other boxes, even though that work has already been done.
+	optionCheck CANNOT CALL solve() as of right now. 
+	optioncheck should only return true if something has actually been deleted (a non 0 was encountered as an option and was 
+	updated to 0)
+
+HOW TO DEAL WITH BRICK WALLS
+	for any number, look for a row, column, or box where only two options are available initially.
+	Plug the number into one of the positions and run the solve method again
+	
+
+		
