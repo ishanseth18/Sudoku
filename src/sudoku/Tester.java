@@ -28,5 +28,7 @@ public class Tester {
 		System.out.println();
 		System.out.println();
 		Board.printOptions();
+		
+		// hello!
 	}
 }
