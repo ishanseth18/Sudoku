@@ -285,4 +285,5 @@ public class Solver {
 		ChangedBoard updated = new ChangedBoard(changed, start);
 		return updated;
 	}
+	
 }
