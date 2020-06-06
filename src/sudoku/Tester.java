@@ -4,13 +4,14 @@ import java.io.*;
 
 public class Tester {
 	public static void main(String[] args) {
-		Board.initialize();
+		Board start = new Board ();
+		start.initialize();
 		try {
 			Scanner scanner = new Scanner(new File("file.txt"));
 			for(int row = 0; row < 9; row++) {
 				for (int col = 0; col < 9; col++) {
-					Board.values[0][row][col] = scanner.nextInt();
-					Board.update(row, col);
+					start.values[0][row][col] = scanner.nextInt();
+					start.update(row, col);
 				}
 			}
 			scanner.close();
@@ -19,16 +20,14 @@ public class Tester {
 		}
 		// Everything above this point just accepts the board as input
 		
-		Board.printOptions();
+		start.printOptions();
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		Solver.solve();
+		Solver.solve(start);
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		Board.printOptions();
-		
-		// hello!
+		start.printOptions();
 	}
 }

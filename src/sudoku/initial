@@ -35,5 +35,11 @@ HOW TO DEAL WITH BRICK WALLS
 	for any number, look for a row, column, or box where only two options are available initially.
 	Plug the number into one of the positions and run the solve method again
 	
+HOW TO HANDLE NON STATIC BOARD
+	each solver method will need to return a board instead of a boolean 
+	will need to set up atleast 2 boards so that progress can be checked for by a seperate method 
+	could create a seperate object that contains a board and a boolean so that I don't need to write a seperate progress method
+	
+	
 
 		

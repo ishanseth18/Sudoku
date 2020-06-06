@@ -1,28 +1,44 @@
 package sudoku;
 
 public class Solver {
-	public static void solve() {
+	public static Board solve(Board start) {
 		for(int i = 1; i <= 9; i++) {
-			if(rowCheck(i)) {
-				solve();
+			ChangedBoard updated;
+			
+			updated = rowCheck(i, start);
+			start = updated.board;
+			if(updated.progress) {
+				solve(start);
 			}
-			if(colCheck(i)) {
-				solve();
+			
+			updated = colCheck(i, start);
+			start = updated.board;
+			if(updated.progress) {
+				solve(start);
 			}
-			if(boxCheck(i)) {
-				solve();
+			
+			updated = boxCheck(i, start);
+			start = updated.board;
+			if(updated.progress) {
+				solve(start);
 			}
-			if(oneOp(i)) {
-				solve();
+			
+			updated = oneOp(i, start);
+			start = updated.board;
+			if(updated.progress) {
+				solve(start);
 			}
-			if (optionCheck(i)) {
-				solve();
+			
+			updated = optionCheck(i, start);
+			start = updated.board;
+			if(updated.progress) {
+				solve(start);
 			}
 		}
-		return;
+		return start;
 	}
 
-	public static boolean rowCheck(int op) {
+	public static ChangedBoard rowCheck(int op, Board start) {
 		boolean changed = false;
 		for(int row = 0; row < 9; row++) {
 			int ctr = 0;
@@ -30,7 +46,7 @@ public class Solver {
 			int mcol = 0;
 			
 			for(int col = 0; col < 9; col++) {
-				if(Board.values[op][row][col] != 0) {
+				if(start.values[op][row][col] != 0) {
 					ctr++;
 					mcol = col;
 					mrow = row;
@@ -38,17 +54,18 @@ public class Solver {
 			}
 			
 			if (ctr == 1) {
-				Board.values[0][mrow][mcol] = Board.values[op][mrow][mcol];
+				start.values[0][mrow][mcol] = start.values[op][mrow][mcol];
 				System.out.print("rowCheck: ");
-				System.out.println("insert " + Board.values[op][mrow][mcol] + " @ " + mrow + "," + mcol);
-				Board.update(mrow, mcol);
+				System.out.println("insert " + start.values[op][mrow][mcol] + " @ " + mrow + "," + mcol);
+				start.update(mrow, mcol);
 				changed = true;
 			}
 		}
-		return changed;
+		ChangedBoard updated = new ChangedBoard(changed, start);
+		return updated;
 	}
 
-	public static boolean colCheck(int op) {
+	public static ChangedBoard colCheck(int op, Board start) {
 		boolean changed = false;
 		
 		for(int col = 0; col < 9; col++) {
@@ -57,7 +74,7 @@ public class Solver {
 			int mcol = 0;
 			
 			for(int row = 0; row < 9; row++) {
-				if(Board.values[op][row][col] != 0) {
+				if(start.values[op][row][col] != 0) {
 					ctr++;
 					mcol = col;
 					mrow = row;
@@ -65,17 +82,18 @@ public class Solver {
 			}
 			
 			if (ctr == 1) {
-				Board.values[0][mrow][mcol] = Board.values[op][mrow][mcol];
+				start.values[0][mrow][mcol] = start.values[op][mrow][mcol];
 				System.out.print("colCheck: ");
-				System.out.println("insert " + Board.values[op][mrow][mcol] + " @ " + mrow + "," + mcol);
-				Board.update(mrow, mcol);
+				System.out.println("insert " + start.values[op][mrow][mcol] + " @ " + mrow + "," + mcol);
+				start.update(mrow, mcol);
 				changed = true;
 			}
 		}
-		return changed;
+		ChangedBoard updated = new ChangedBoard(changed, start);
+		return updated;
 	}
 
-	public static boolean boxCheck(int op) {
+	public static ChangedBoard boxCheck(int op, Board start) {
 		boolean changed = false;
 		// set to false so it can change to true if change is made
 		
@@ -99,7 +117,7 @@ public class Solver {
 						// above should calculate the row and col position
 						// given the box ur in and the tile ur lookin at in the box
 						
-						if(Board.values[op][row][col] != 0) {
+						if(start.values[op][row][col] != 0) {
 							ctr++;
 							mrow = row;
 							mcol = col;
@@ -107,18 +125,19 @@ public class Solver {
 					}
 				}
 				if (ctr == 1) {
-					Board.values[0][mrow][mcol] = Board.values[op][mrow][mcol];
+					start.values[0][mrow][mcol] = start.values[op][mrow][mcol];
 					System.out.print("boxCheck: ");
-					System.out.println("insert " + Board.values[op][mrow][mcol] + " @ " + mrow + "," + mcol);
-					Board.update(mrow, mcol);
+					System.out.println("insert " + start.values[op][mrow][mcol] + " @ " + mrow + "," + mcol);
+					start.update(mrow, mcol);
 					changed = true;
 				}
 			}
 		}
-		return changed;
+		ChangedBoard updated = new ChangedBoard(changed, start);
+		return updated;
 	}
 
-	public static boolean oneOp(int num) {
+	public static ChangedBoard oneOp(int num, Board start) {
 		int row = num - 1;
 		boolean change = false;
 		// set to false, if any change occurs change = true.
@@ -130,7 +149,7 @@ public class Solver {
 			// checks one box at a time in a given row. m -> marker.
 			
 			for(int op = 1; op <= 9; op++) {
-				if(Board.values[op][row][col] != 0) {
+				if(start.values[op][row][col] != 0) {
 					ctr++;
 					mop = op;
 					mcol = col;
@@ -141,23 +160,25 @@ public class Solver {
 			// only matters if ctr = 1. 
 			
 			if(ctr == 1) {
-				Board.values[0][row][mcol] = Board.values[mop][row][mcol];
+				start.values[0][row][mcol] = start.values[mop][row][mcol];
 				// pulls the option to the actual board
 				
 				System.out.print("oneOp: ");
-				System.out.println("insert " + Board.values[mop][row][mcol] + " @ " + row + "," + mcol);
+				System.out.println("insert " + start.values[mop][row][mcol] + " @ " + row + "," + mcol);
 				
-				Board.update(row, mcol);
+				start.update(row, mcol);
 				// updates the board
 				
 				change =  true;
 				// changes value to true for solver method
 			}
 		}
-		return change;
+		ChangedBoard updated = new ChangedBoard(change, start);
+		return updated;
+
 	}
 
-	public static boolean optionCheck(int op) {
+	public static ChangedBoard optionCheck(int op, Board start) {
 		boolean changed = false; // change in the options
 		boolean found = false; // found a non zero value in that row
 		
@@ -191,7 +212,7 @@ public class Solver {
 						int col = 3 * boxc + tilec;
 						// should give exact location of tile in the board
 						
-						if(Board.values[op][row][col] != 0) {
+						if(start.values[op][row][col] != 0) {
 							found =  true;
 							mrow = row;
 							mboxc = boxc;
@@ -217,7 +238,7 @@ public class Solver {
 						int col = 3 * boxc + tilec;
 						// should give exact location of tile in the board
 						
-						if(Board.values[op][row][col] != 0) {
+						if(start.values[op][row][col] != 0) {
 							found =  true;
 							mcol = col; // remember the column you are in
 							mboxr = boxr; // remember the box you don't want to change
@@ -237,11 +258,11 @@ public class Solver {
 						if(i >= mboxc * 3 && i < (mboxc * 3) + 3) {
 							continue;
 						}
-						if(Board.values[op][mrow][i] == 0) {
+						if(start.values[op][mrow][i] == 0) {
 							continue;
 						}
 						System.out.println("option for " + op + " deleted @ " + mrow +", " + i);
-						Board.values[op][mrow][i] = 0;
+						start.values[op][mrow][i] = 0;
 						changed = true;
 					}
 				}
@@ -251,16 +272,17 @@ public class Solver {
 						if(i >= mboxr * 3 && i < (mboxr * 3) + 3) {
 							continue;
 						}
-						if(Board.values[op][i][mcol] == 0) {
+						if(start.values[op][i][mcol] == 0) {
 							continue;
 						}
 						System.out.println("option for " + op + " deleted @ " + i +", " + mcol);
-						Board.values[op][i][mcol] = 0;
+						start.values[op][i][mcol] = 0;
 						changed = true;
 					}
 				}
 			}
 		}
-		return changed;
+		ChangedBoard updated = new ChangedBoard(changed, start);
+		return updated;
 	}
 }
