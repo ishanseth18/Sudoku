@@ -1,12 +1,13 @@
 package sudoku;
+import java.lang.*;
 
-public class Board {
+public class Board implements Cloneable{
 	int[][][] values = new int[10][9][9];
 	// [options][row#][col#]
 	// [depth][down][right]
 	
 	Board() {
-		this.values = values;
+		
 	}
 	
 	public void printOptions() { //will print the board and all the options
@@ -104,4 +105,41 @@ public class Board {
 			}
 		}
 	}
+	
+	public boolean isComplete () {
+		for(int row = 0; row < 9; row++) {
+			for(int col = 0; col < 9; col++) {
+				if(this.values[0][row][col] == 0) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public boolean isValid () {
+		for (int row = 0; row < 9; row++) {
+			for (int col = 0; col < 9; col++) {
+				if(this.values[0][row][col] == 0) {
+					for (int op = 1; op < 10; op++) {
+						if (this.values[op][row][col] != 0) {
+							break;
+						}
+						else if(this.values[op][row][col] == 0 && op == 9) {
+							return false;
+						}
+						else if (this.values[op][row][col] == 0 && op != 9) {
+							continue;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 }
+

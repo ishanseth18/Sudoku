@@ -1,6 +1,6 @@
 package sudoku;
 
-public class ChangedBoard {
+public class ChangedBoard implements Cloneable{
 	Board board;
 	boolean progress = false;
 	

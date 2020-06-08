@@ -3,7 +3,7 @@ import java.util.*;
 import java.io.*;
 
 public class Tester {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CloneNotSupportedException {
 		Board start = new Board ();
 		start.initialize();
 		try {
@@ -20,14 +20,15 @@ public class Tester {
 		}
 		// Everything above this point just accepts the board as input
 		
-		start.printOptions();
+		start.printBoard();
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		Solver.solve(start);
+		start = Solver.solve(start);
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		start.printOptions();
+		start.printBoard();
+		FinishBoard.temp(start);
 	}
 }

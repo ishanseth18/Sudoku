@@ -40,6 +40,21 @@ HOW TO HANDLE NON STATIC BOARD
 	will need to set up atleast 2 boards so that progress can be checked for by a seperate method 
 	could create a seperate object that contains a board and a boolean so that I don't need to write a seperate progress method
 	
+HOW TO USE STACK IN SOLVER
+	after the program does as much as it can (i = 1 -> 9 gives no progress) i will check t see if it is done
+	if it is done then return the board to tester to be printed
+	if it isn't done then for each number 1 -> 9, i will need to check for a row that has 2 options, then three, etc.
+	each board in the queue will be one board option (that number in one of the two or more spaces)
+	I will plug each board in to the solver method already written
+	will also need to make a method that checks to see if one option is a deadend
+		any empty slots on the actual board needs to have one or more options left at any given time or else i need to check another option
+	
+METHODS IN FINISHBOARD 
+	first will need to look for an instance of only two-ish options left
+		check rows, collums, boxes, and individual squares for all their options
+	will need to create however many boards with both options in the queue
+	each item in the que will be passed to solver, and if the returned board is inncorrect, then dequeue the next board and try again
+	if the first board is ok then stop and return to tester
 	
 
 		
