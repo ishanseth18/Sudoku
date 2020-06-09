@@ -3,19 +3,23 @@ package sudoku;
 public class FinishBoard {
 	public static Board temp(Board initial)  {
 		BoardOptions stack = makeStack(initial);
-		while (!stack.isEmpty()) {
+		
+		while(!stack.isEmpty()) {
 			Board current = stack.pop();
 			current = Solver.solve(current);
-			if(current.isComplete()) {
-				return current;
+			
+			if(!current.isComplete() && current.isValid()) {
+				current = temp(current);
 			}
-			else if (!current.isComplete() && current.isValid()) {
-				return temp(current);
+			else if(current.isComplete()) {
+				return current;
 			}
 			else if (!current.isValid()) {
 				continue;
 			}
+			
 		}
+
 		return initial;
 	}
 	

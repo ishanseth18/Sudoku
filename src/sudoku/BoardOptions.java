@@ -28,10 +28,13 @@ public class BoardOptions {
 	
 	public Board pop () {
 		BoardOptions ptr = this;
+		BoardOptions prev = ptr;
 		while(ptr.next != null) {
+			prev = ptr;
 			ptr = ptr.next;
 		}
 		Board current = ptr.board;
+		prev.next = null;
 		ptr = null;
 		return current;
 	}
@@ -48,5 +51,4 @@ public class BoardOptions {
 		}
 		return;
 	}
-
 }

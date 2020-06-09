@@ -28,8 +28,15 @@ public class Tester {
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		//start.printOptions();
-		start = FinishBoard.temp(start);
-		System.out.println("--------------------");
+		if(start.isComplete()) {
+			System.out.println("Didn't have to guess:");
+			start.printBoard();
+		}
+		else {
+			start = FinishBoard.temp(start);
+			System.out.println("had to guess:");
+			start.printBoard();
+		}
+		
 	}
 }
