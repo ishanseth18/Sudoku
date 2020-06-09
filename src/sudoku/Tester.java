@@ -3,7 +3,7 @@ import java.util.*;
 import java.io.*;
 
 public class Tester {
-	public static void main(String[] args) throws CloneNotSupportedException {
+	public static void main(String[] args) {
 		Board start = new Board ();
 		start.initialize();
 		try {
@@ -28,7 +28,8 @@ public class Tester {
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		start.printBoard();
-		FinishBoard.temp(start);
+		//start.printOptions();
+		start = FinishBoard.temp(start);
+		System.out.println("--------------------");
 	}
 }

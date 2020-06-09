@@ -1,13 +1,25 @@
 package sudoku;
 
 public class FinishBoard {
-	public static void temp(Board initial) throws CloneNotSupportedException {
+	public static Board temp(Board initial)  {
 		BoardOptions stack = makeStack(initial);
-		//stack.print();
-		return;
+		while (!stack.isEmpty()) {
+			Board current = stack.pop();
+			current = Solver.solve(current);
+			if(current.isComplete()) {
+				return current;
+			}
+			else if (!current.isComplete() && current.isValid()) {
+				return temp(current);
+			}
+			else if (!current.isValid()) {
+				continue;
+			}
+		}
+		return initial;
 	}
 	
-	public static BoardOptions makeStack(Board initial) throws CloneNotSupportedException {
+	public static BoardOptions makeStack(Board initial)  {
 		int ctr = 0;
 		int min = 10;
 		int rowMarker = 0;
@@ -31,20 +43,18 @@ public class FinishBoard {
 					rowMarker = row;
 					colMarker = col;
 					min = ctr;
-					System.out.println(min);
 				}
 				// if the options are less than the current min, record the coordinates and update the min 
 			}
 		}
+		
+		
 		BoardOptions stack = new BoardOptions();
 		for(int i = 1; i < 10; i++) {
 			if(initial.values[i][rowMarker][colMarker] != 0) {
-				Board copy = (Board) initial.clone();
+				Board copy = new Board();
+				copy = copy.copyBoard(initial);
 				copy.values[0][rowMarker][colMarker] = initial.values[i][rowMarker][colMarker];
-				copy.printBoard();
-				System.out.println();
-				System.out.println();
-				initial.printBoard();
 				copy.update(rowMarker, colMarker);
 				stack.push(copy);
 			}

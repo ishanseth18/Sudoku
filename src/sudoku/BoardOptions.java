@@ -1,6 +1,6 @@
 package sudoku;
 
-public class BoardOptions implements Cloneable{
+public class BoardOptions {
 	Board board;
 	BoardOptions next;
 	
@@ -48,4 +48,5 @@ public class BoardOptions implements Cloneable{
 		}
 		return;
 	}
+
 }

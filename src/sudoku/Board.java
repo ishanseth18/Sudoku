@@ -1,7 +1,6 @@
 package sudoku;
-import java.lang.*;
 
-public class Board implements Cloneable{
+public class Board {
 	int[][][] values = new int[10][9][9];
 	// [options][row#][col#]
 	// [depth][down][right]
@@ -138,8 +137,17 @@ public class Board implements Cloneable{
 		return true;
 	}
 
-	protected Object clone() throws CloneNotSupportedException {
-		return super.clone();
+	
+	
+	public Board copyBoard(Board original) {
+		for(int op = 0; op < 10; op++) {
+			for(int row = 0; row < 9; row++) {
+				for(int col = 0; col < 9; col++) {
+					this.values[op][row][col] = original.values[op][row][col];
+				}
+			}
+		}
+		return this;
 	}
 }
 
